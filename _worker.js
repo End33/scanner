@@ -746,18 +746,23 @@ async function handleUDPOutBound(webSocket, vlessResponseHeader, log) {
  * @returns {string}
  */
 function getVLESSConfig(userID, hostName) {
-    const vlessLink = `vless://${userID}@${hostName}:80?encryption=none&security=none&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#${hostName}`
+    const vlessLink = `vless://${userID}@${hostName}:80?encryption=none&security=none&fp=randomized&type=ws&host=${hosName}&ptName}&path=%2F%3Fed%3D2048#${hostName}`
     const vlessTlsLink = `vless://${userID}@${hostName}:443?encryption=none&security=tls&sni=${hostName}&fp=randomized&type=ws&host=${hostName}&path=%2F%3Fed%3D2048#${hostName}`
     return `
-下面是非 TLS 端口的节点信息及分享链接，可使用 CF 支持的非 TLS 端口：
-
-地址：${hostName} 或 CF 优选 IP
-端口：80 或 CF 支持的非 TLS 端口
-UUID：${userID}
-传输：ws
-伪装域名：${hostName}
-路径：/?ed=2048
-
+    
+name： ${hostName}
+server： ${hostName} 
+port：80 
+type: vless
+udp: true
+skip-cert-verify: true
+UUID： ${userID}
+network： ws
+servername: ${hostName}
+ws-opts:
+      path： /?ed=2048
+      headers:
+        Host: ${hostName}
 ${vlessLink}
 
 下面是 TLS 端口的节点信息及分享链接，可使用 CF 支持的 TLS 端口：
